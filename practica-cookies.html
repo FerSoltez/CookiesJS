@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de manejo de Cookies</title>
+</head>
+<body>
+    <h1>Ejemplo de manejo de Cookies</h1>
+
+    <button onclick="crearCookie('usuario', 'Juan', 7)">Crear Cookie</button>
+    <button onclick="alert(leerCookie('usuario'))">Leer Cookie</button>
+    <button onclick="eliminarCookie('usuario')">Eliminar Cookie</button>
+
+    <script>
+        // Función para crear una cookie
+        function crearCookie(nombre, valor, diasExpiracion) {
+            let fecha = new Date();
+            fecha.setTime(fecha.getTime() + (diasExpiracion * 24 * 60 * 60 * 1000)); 
+            let expiracion = "expires=" + fecha.toUTCString();
+            document.cookie = nombre + "=" + valor + "; " + expiracion + "; path=/";
+        }
+
+        // Función para leer una cookie
+        function leerCookie(nombre) {
+            let nombreCookie = nombre + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let cookies = decodedCookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.indexOf(nombreCookie) == 0) {
+                    return cookie.substring(nombreCookie.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Función para eliminar una cookie
+        function eliminarCookie(nombre) {
+            crearCookie(nombre, "", -1);
+        }
+    </script>
+</body>
+</html>
